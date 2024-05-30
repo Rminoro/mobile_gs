@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, Button } from 'react-native';
-import axios from 'axios';
+// import axios from 'axios';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');

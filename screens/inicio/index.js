@@ -1,7 +1,7 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { View, StyleSheet, ImageBackground, Button } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+
 
 const imagens =[
     require('../../assets/oceano.jpg')
