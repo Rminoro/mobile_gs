@@ -5,6 +5,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import Inicio from './screens/inicio/index.js'; 
 import Login from './screens/login/index.js';
 import Cadastro from './screens/cadastro/index.js';
+import Report from './screens/report/index.js';
+import Principal from './screens/principal/index.js';
 
 const Stack = createStackNavigator();
 
@@ -15,6 +17,8 @@ function App() {
         <Stack.Screen name="Inicio" component={Inicio} />
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Cadastro" component={Cadastro} />
+        <Stack.Screen name="Report" component={Report}/>
+        <Stack.Screen name="Principal" component={Principal}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

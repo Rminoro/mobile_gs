@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, TextInput, StyleSheet, TouchableOpacity, Text, Modal, Button } from 'react-native';
-// import axios from 'axios';
+import axios from 'axios';
 
 const Login = ({ navigation }) => {
   const [email, setEmail] = useState('');
@@ -18,7 +18,7 @@ const Login = ({ navigation }) => {
     try {
       const response = await axios.post('http://192.168.15.133:5000/login', { email, senha });
       if (response.data.success) {
-        navigation.navigate('TelaInicial');
+        navigation.navigate('Principal');
       } else {
         setModalMessage(response.data.message || 'Erro ao fazer login. Tente novamente.');
         setModalVisible(true);

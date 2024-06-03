@@ -1,86 +1,75 @@
-// RegisterScreen.js
-import React from 'react';
-import { View, Text, TextInput, Button, StyleSheet, Alert } from 'react-native';
-import { useForm, Controller } from 'react-hook-form';
+import { View, TextInput, StyleSheet, Button, Alert } from 'react-native';
+import React, { useState } from 'react';
 
-export default function Cadastro() {
-  const { control, handleSubmit, formState: { errors } } = useForm();
 
-  const onSubmit = data => {
-    Alert.alert("Registro bem-sucedido", `Email: ${data.email}, Senha: ${data.password}`);
+const Cadastro = () => {
+  const [cpf, setCpf] = useState('');
+  const [senha, setSenha] = useState('');
+  const [email, setEmail] = useState('');
+
+  const handleRegister = async () => {
+    try {
+      const response = await fetch('http://192.168.15.133:5000/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          senha: senha,
+          email: email, // Adicionando o campo de email
+        }),
+      });
+      const data = await response.json();
+      if (response.ok) {
+        // Registro bem-sucedido, exiba uma mensagem ou navegue para outra tela
+        Alert.alert('Sucesso', 'Usuário registrado com sucesso.');
+      } else {
+        // Exiba uma mensagem de erro se o registro falhar
+        Alert.alert('Erro', data.message || 'Erro ao registrar usuário.');
+      }
+    } catch (error) {
+      console.error('Erro:', error);
+      Alert.alert('Erro', 'Ocorreu um erro ao processar o registro.');
+    }
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Registrar</Text>
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-          pattern: /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Email"
-            keyboardType="email-address"
-          />
-        )}
-        name="email"
-        defaultValue=""
+      <TextInput
+        placeholder="Senha"
+        onChangeText={(text) => setSenha(text)}
+        value={senha}
+        style={styles.input}
+        secureTextEntry
       />
-      {errors.email && <Text style={styles.errorText}>Email inválido.</Text>}
-      
-      <Controller
-        control={control}
-        rules={{
-          required: true,
-          minLength: 6,
-        }}
-        render={({ field: { onChange, onBlur, value } }) => (
-          <TextInput
-            style={styles.input}
-            onBlur={onBlur}
-            onChangeText={onChange}
-            value={value}
-            placeholder="Senha"
-            secureTextEntry
-          />
-        )}
-        name="password"
-        defaultValue=""
+      <TextInput
+        placeholder="Email"
+        onChangeText={(text) => setEmail(text)}
+        value={email}
+        style={styles.input}
+        keyboardType="email-address"
       />
-      {errors.password && <Text style={styles.errorText}>A senha deve ter pelo menos 6 caracteres.</Text>}
-      
-      <Button title="Registrar" onPress={handleSubmit(onSubmit)} />
+      <Button title="Registrar" onPress={handleRegister} />
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    marginBottom: 20,
-    textAlign: 'center',
+    alignItems: 'center',
+    paddingHorizontal: 20,
   },
   input: {
-    height: 40,
-    borderColor: '#ccc',
+    width: '100%',
+    height: 50,
     borderWidth: 1,
-    marginBottom: 10,
-    paddingLeft: 8,
-  },
-  errorText: {
-    color: 'red',
-    marginBottom: 10,
+    borderColor: 'red',
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 20,
   },
 });
 
+export default Cadastro;

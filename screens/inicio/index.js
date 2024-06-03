@@ -17,6 +17,11 @@ const Inicio = () =>{
             title="Ir para Login"
             onPress={() => navigation.navigate('Login')}
             />
+             <Button
+          title="Ir para Report"
+          onPress={() => navigation.navigate('Report')}
+          style={styles.reportButton}
+        />
         </View>
     </ImageBackground>
   )
