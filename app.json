@@ -13,8 +13,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "Your app needs access to your location."
+      "config": {
+        "googleMapsApiKey": "AIzaSyDfT8L0NCFL01uMG47yx9kBWsBgWxuWU5E"
       }
     },
     "android": {
@@ -25,7 +25,12 @@
       "permissions": [
         "ACCESS_FINE_LOCATION",
         "ACCESS_COARSE_LOCATION"
-      ]
+      ],
+      "config": {
+        "googleMaps": {
+          "apiKey": "AIzaSyDfT8L0NCFL01uMG47yx9kBWsBgWxuWU5E"
+        }
+      }
     },
     "web": {
       "favicon": "./assets/favicon.png"

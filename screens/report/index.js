@@ -86,7 +86,8 @@
 
 // export default reportMapa;
 // //https://www.youtube.com/watch?v=7DY1tHHudtM
-import React, { useState, useEffect } from 'react';
+// 
+// import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import MapView, { Marker } from 'react-native-maps';
 import * as Location from 'expo-location';
@@ -114,7 +115,7 @@ const ReportMapa = () => {
 
   const handleReportLocation = () => {
     if (location) {
-      fetch('https://seu-backend.com/report-location', {
+      fetch('http://192.168.15.133:5000//reportar_localizacao', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -125,7 +126,7 @@ const ReportMapa = () => {
           if (!response.ok) {
             throw new Error('Erro ao enviar localização para o servidor.');
           }
-          return response.text();
+          return response.json();
         })
         .then((data) => {
           console.log(data);
