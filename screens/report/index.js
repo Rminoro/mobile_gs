@@ -88,54 +88,56 @@
 // //https://www.youtube.com/watch?v=7DY1tHHudtM
 // 
 // import React, { useState, useEffect } from 'react';
-import { View, Text, StyleSheet, Button, Alert } from 'react-native';
-import MapView, { Marker } from 'react-native-maps';
-import * as Location from 'expo-location';
+// import React, { useState } from 'react';
+import React, { useState } from 'react';
+import { View, Text, StyleSheet, Button, Alert, TextInput } from 'react-native';
+import MapView, { Marker, PROVIDER_GOOGLE } from 'react-native-maps';
 
 const ReportMapa = () => {
   const [location, setLocation] = useState(null);
   const [error, setError] = useState(null);
+  const [address, setAddress] = useState('');
 
-  useEffect(() => {
-    (async () => {
-      let { status } = await Location.requestForegroundPermissionsAsync();
-      if (status !== 'granted') {
-        setError('Permissão de acesso à localização foi negada.');
-        return;
+  const handleGeocodeAddress = async () => {
+    try {
+      const response = await fetch(
+        `https://maps.googleapis.com/maps/api/geocode/json?address=${encodeURIComponent(address)}&key=AIzaSyDfT8L0NCFL01uMG47yx9kBWsBgWxuWU5E`
+      );
+      const data = await response.json();
+
+      if (data.results.length > 0) {
+        const { lat, lng } = data.results[0].geometry.location;
+        setLocation({ latitude: lat, longitude: lng });
+        setError(null);
+      } else {
+        setError('Endereço não encontrado.');
       }
+    } catch (error) {
+      console.error('Erro ao geocodificar endereço:', error);
+      setError('Erro ao geocodificar endereço. Tente novamente.');
+    }
+  };
 
-      let { coords } = await Location.getCurrentPositionAsync({});
-      setLocation({
-        latitude: coords.latitude,
-        longitude: coords.longitude,
-      });
-      setError(null); // Limpa o erro se a localização for obtida com sucesso
-    })();
-  }, []);
-
-  const handleReportLocation = () => {
+  const handleReportLocation = async () => {
     if (location) {
-      fetch('http://192.168.15.133:5000//reportar_localizacao', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(location),
-      })
-        .then((response) => {
-          if (!response.ok) {
-            throw new Error('Erro ao enviar localização para o servidor.');
-          }
-          return response.json();
-        })
-        .then((data) => {
-          console.log(data);
-          Alert.alert('Sucesso', 'Localização reportada com sucesso!');
-        })
-        .catch((error) => {
-          console.error(error);
-          Alert.alert('Erro', 'Não foi possível reportar a localização. Tente novamente.');
+      try {
+        const response = await fetch('http://192.168.15.133:5000/reportar_localizacao', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(location),
         });
+        if (!response.ok) {
+          throw new Error('Erro ao enviar localização para o servidor.');
+        }
+        const data = await response.json();
+        console.log(data);
+        Alert.alert('Sucesso', 'Localização reportada com sucesso!');
+      } catch (error) {
+        console.error(error);
+        Alert.alert('Erro', 'Não foi possível reportar a localização. Tente novamente.');
+      }
     } else {
       Alert.alert('Erro', 'Localização não disponível.');
     }
@@ -143,34 +145,55 @@ const ReportMapa = () => {
 
   return (
     <View style={styles.container}>
-      {location ? (
-        <MapView
-          style={styles.map}
-          initialRegion={{
-            latitude: location.latitude,
-            longitude: location.longitude,
-            latitudeDelta: 0.01,
-            longitudeDelta: 0.01,
-          }}
-        >
-          <Marker coordinate={location} />
-        </MapView>
-      ) : (
-        <Text>{error || 'Obtendo localização...'}</Text>
-      )}
+      <MapView
+        provider={PROVIDER_GOOGLE}
+        style={styles.map}
+        initialRegion={{
+          latitude: -23.55052,
+          longitude: -46.633308,
+          latitudeDelta: 0.01,
+          longitudeDelta: 0.01,
+        }}
+      >
+        {location && <Marker coordinate={location} />}
+      </MapView>
+      <TextInput
+        style={styles.input}
+        placeholder="Digite o endereço"
+        value={address}
+        onChangeText={setAddress}
+      />
+  
+      <Button title="Buscar Localização" onPress={handleGeocodeAddress} />
       <Button title="Reportar Localização" onPress={handleReportLocation} />
+      {error && <Text style={styles.errorText}>{error}</Text>}
     </View>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'flex-end',
+    flex: 1,
+    justifyContent: 'center',
     alignItems: 'center',
   },
   map: {
-    ...StyleSheet.absoluteFillObject,
+    width: '100%',
+    height: 300,
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderWidth: 1,
+    borderColor: '#ccc',
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
   },
 });
 
