@@ -49,6 +49,9 @@ const Login = ({ navigation }) => {
         <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('Cadastro')}>
           <Text style={styles.linkText}>Faça o cadastro aqui</Text>
         </TouchableOpacity>
+        <TouchableOpacity style={styles.link} onPress={() => navigation.navigate('EsqueceuSenha')}>
+          <Text style={styles.linkText}>Esqueceu sua senha? Clique aqui!</Text>
+        </TouchableOpacity>
 
         <Modal
           transparent={true}

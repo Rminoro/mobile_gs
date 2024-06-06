@@ -9,6 +9,8 @@ import Report from './screens/report/index.js';
 import Principal from './screens/principal/index.js';
 import Maps from './screens/maps/index.js';
 import UsuariosCrud from './screens/crudUsuario/index.js';
+import EsqueceuSenha from './screens/esqueceuSenha/index.js';
+import RedefinirSenha from './screens/redefinirSenha/index.js';
 
 const Stack = createStackNavigator();
 
@@ -23,6 +25,8 @@ function App() {
         <Stack.Screen name="Principal" component={Principal}/>
         <Stack.Screen name="Maps" component={Maps}/>
         <Stack.Screen name="UsuariosCrud" component={UsuariosCrud}/>
+        <Stack.Screen name="EsqueceuSenha" component={EsqueceuSenha}/>
+        <Stack.Screen name="RedefinirSenha" component={RedefinirSenha}/>
       </Stack.Navigator>
     </NavigationContainer>
   );
