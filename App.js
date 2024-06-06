@@ -8,6 +8,7 @@ import Cadastro from './screens/cadastro/index.js';
 import Report from './screens/report/index.js';
 import Principal from './screens/principal/index.js';
 import Maps from './screens/maps/index.js';
+import UsuariosCrud from './screens/crudUsuario/index.js';
 
 const Stack = createStackNavigator();
 
@@ -21,6 +22,7 @@ function App() {
         <Stack.Screen name="Report" component={Report}/>
         <Stack.Screen name="Principal" component={Principal}/>
         <Stack.Screen name="Maps" component={Maps}/>
+        <Stack.Screen name="UsuariosCrud" component={UsuariosCrud}/>
       </Stack.Navigator>
     </NavigationContainer>
   );

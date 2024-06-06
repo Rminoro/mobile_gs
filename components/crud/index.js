@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
+import { View, Text, TextInput, Button, FlatList, StyleSheet, Alert } from 'react-native';
 
-const API_URL = 'http://192.168.15.133:5000'; 
+const API_URL = 'http://192.168.15.133:5000';
 
 const UsuariosCRUD = () => {
   const [usuarios, setUsuarios] = useState([]);
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [novaSenha, setNovaSenha] = useState('');
+  const [showUsuarios, setShowUsuarios] = useState(false);
 
   useEffect(() => {
-    fetchUsuarios();
-  }, []);
+    if (showUsuarios) {
+      fetchUsuarios();
+    }
+  }, [showUsuarios]);
 
   const fetchUsuarios = async () => {
     try {
@@ -32,16 +36,46 @@ const UsuariosCRUD = () => {
         body: JSON.stringify({ email, senha }),
       });
       const data = await response.json();
-      console.log(data.message);
-      fetchUsuarios();
+      Alert.alert(data.message);
+      setShowUsuarios(true); // Mostrar a lista de usuários após adicionar
     } catch (error) {
       console.error('Erro ao adicionar usuário:', error);
+    }
+  };
+
+  const deletarUsuario = async (userEmail) => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios/${userEmail}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      Alert.alert(data.message);
+      setShowUsuarios(true); // Atualizar a lista de usuários após deletar
+    } catch (error) {
+      console.error('Erro ao excluir usuário:', error);
+    }
+  };
+
+  const alterarSenha = async () => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios/${email}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ novaSenha }),
+      });
+      const data = await response.json();
+      Alert.alert(data.message);
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
     }
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
       <Text>Email: {item.email}</Text>
+      <Button title="Deletar" onPress={() => deletarUsuario(item.email)} />
     </View>
   );
 
@@ -62,14 +96,21 @@ const UsuariosCRUD = () => {
           secureTextEntry
         />
         <Button title="Adicionar Usuário" onPress={adicionarUsuario} />
+        <Button title="Alterar Senha" onPress={alterarSenha} />
+        <Button
+          title={showUsuarios ? 'Ocultar Usuários' : 'Mostrar Usuários'}
+          onPress={() => setShowUsuarios(!showUsuarios)}
+        />
       </View>
 
-      <FlatList
-        data={usuarios}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.email}
-        style={styles.flatlist}
-      />
+      {showUsuarios && (
+        <FlatList
+          data={usuarios}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.email}
+          style={styles.flatlist}
+        />
+      )}
     </View>
   );
 };
