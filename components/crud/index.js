@@ -1,63 +1,53 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, Button, FlatList, StyleSheet } from 'react-native';
-import firebase from './firebase';
+
+const API_URL = 'http://192.168.15.133:5000'; 
 
 const UsuariosCRUD = () => {
   const [usuarios, setUsuarios] = useState([]);
-  const [nome, setNome] = useState('');
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
 
   useEffect(() => {
-    const usuariosRef = firebase.database().ref('usuarios');
-    usuariosRef.on('value', (snapshot) => {
-      const data = snapshot.val();
-      if (data) {
-        const usuariosList = Object.values(data);
-        setUsuarios(usuariosList);
-      } else {
-        setUsuarios([]);
-      }
-    });
-
-    return () => usuariosRef.off('value');
+    fetchUsuarios();
   }, []);
 
-  const adicionarUsuario = () => {
-    const usuariosRef = firebase.database().ref('usuarios');
-    const usuario = {
-      nome: nome,
-      email: email,
-      senha: senha,
-    };
-    usuariosRef.push(usuario);
-    setNome('');
-    setEmail('');
-    setSenha('');
+  const fetchUsuarios = async () => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios`);
+      const data = await response.json();
+      setUsuarios(data.usuarios);
+    } catch (error) {
+      console.error('Erro ao buscar usuários:', error);
+    }
   };
 
-  const excluirUsuario = (usuarioId) => {
-    const usuarioRef = firebase.database().ref('usuarios').child(usuarioId);
-    usuarioRef.remove();
+  const adicionarUsuario = async () => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+      const data = await response.json();
+      console.log(data.message);
+      fetchUsuarios();
+    } catch (error) {
+      console.error('Erro ao adicionar usuário:', error);
+    }
   };
 
   const renderItem = ({ item }) => (
     <View style={styles.item}>
-      <Text>{item.nome}</Text>
-      <Text>{item.email}</Text>
-      <Button title="Excluir" onPress={() => excluirUsuario(item.id)} />
+      <Text>Email: {item.email}</Text>
     </View>
   );
 
   return (
     <View style={styles.container}>
       <View style={styles.formContainer}>
-        <TextInput
-          style={styles.input}
-          placeholder="Nome"
-          value={nome}
-          onChangeText={setNome}
-        />
         <TextInput
           style={styles.input}
           placeholder="Email"
@@ -77,7 +67,7 @@ const UsuariosCRUD = () => {
       <FlatList
         data={usuarios}
         renderItem={renderItem}
-        keyExtractor={(item) => item.id}
+        keyExtractor={(item) => item.email}
         style={styles.flatlist}
       />
     </View>
