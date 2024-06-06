@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { View, StyleSheet, Dimensions, TouchableOpacity, Text, TextInput, Alert } from 'react-native';
 import MapView, { Polyline, Marker } from 'react-native-maps';
@@ -11,6 +10,7 @@ const Maps = () => {
   const [routeCoordinates, setRouteCoordinates] = useState([]);
   const [originInput, setOriginInput] = useState('');
   const [destinationInput, setDestinationInput] = useState('');
+  const [isOverlayVisible, setIsOverlayVisible] = useState(true);
   const mapRef = useRef(null);
 
   useEffect(() => {
@@ -82,8 +82,6 @@ const Maps = () => {
           if (data.routes.length > 0) {
             const points = data.routes[0].overview_polyline.points;
             updateRouteCoordinates(points);
-
-            // Ajuste a região do mapa para centrar nas coordenadas da origem
             const newRegion = {
               latitude: originCoords.latitude,
               longitude: originCoords.longitude,
@@ -91,6 +89,8 @@ const Maps = () => {
               longitudeDelta: 0.0421,
             };
             mapRef.current.animateToRegion(newRegion);
+            // aqui ele deixa o fundo com a cor normal dps de pesquisar
+            setIsOverlayVisible(false);
           }
         } catch (error) {
           console.error('Error calculating route:', error);
@@ -125,17 +125,19 @@ const Maps = () => {
           </>
         )}
       </MapView>
-   
+      {isOverlayVisible && <View style={styles.overlay} />}
       <View style={styles.inputContainer}>
         <TextInput
           style={styles.input}
           placeholder="Origem"
+          placeholderTextColor="#fff"
           value={originInput}
           onChangeText={setOriginInput}
         />
         <TextInput
           style={styles.input}
           placeholder="Destino"
+          placeholderTextColor="#fff"
           value={destinationInput}
           onChangeText={setDestinationInput}
         />
@@ -150,18 +152,21 @@ const Maps = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
   },
   map: {
     width: Dimensions.get('window').width,
     height: Dimensions.get('window').height,
+  },
+  overlay: {
+    ...StyleSheet.absoluteFillObject,
+    backgroundColor: 'rgba(0, 0, 139, 0.6)', 
   },
   inputContainer: {
     position: 'absolute',
     top: 50,
     left: 20,
     right: 20,
-    backgroundColor: 'white',
+    backgroundColor: 'rgba(0, 0, 139, 0.6)',
     padding: 10,
     borderRadius: 5,
     elevation: 10,
@@ -172,6 +177,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
     paddingHorizontal: 10,
+    borderColor: '#fff',
+    color: '#fff', 
   },
   button: {
     backgroundColor: '#007bff',
@@ -186,4 +193,4 @@ const styles = StyleSheet.create({
 });
 
 export default Maps;
-
+//atualizado* quando faz a pesquisa, o fundo volta a ter a cor normal e nao fica azul em cima 
