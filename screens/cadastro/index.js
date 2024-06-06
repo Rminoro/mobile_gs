@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul com 50% de opacidade
+    backgroundColor: 'rgba(0, 0, 255, 0.5)', 
   },
   container: {
     flex: 1,

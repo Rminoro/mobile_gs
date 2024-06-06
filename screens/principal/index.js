@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   overlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(0, 0, 139, 0.6)', // Azul meio transparente
+    backgroundColor: 'rgba(0, 0, 139, 0.6)', 
     justifyContent: 'center',
   },
   container: {
@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   button: {
-    backgroundColor: '#ADD8E6', // Azul bebê
+    backgroundColor: '#ADD8E6',
     padding: 10,
     borderRadius: 5,
     alignItems: 'center',

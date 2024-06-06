@@ -67,7 +67,7 @@ const ReportMapa = () => {
   return (
     <View style={styles.container}>
       <MapView
-        provider={PROVIDER_DEFAULT} // Alterado para PROVIDER_DEFAULT
+        provider={PROVIDER_DEFAULT} 
         style={styles.map}
         initialRegion={region}
         region={region} 
@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
-    backgroundColor: '#ADD8E6', // Azul bebê
+    backgroundColor: '#ADD8E6', 
     paddingVertical: 10,
     paddingHorizontal: 20,
     borderRadius: 8,

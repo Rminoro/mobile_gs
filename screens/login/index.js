@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     bottom: 0,
-    backgroundColor: 'rgba(0, 0, 255, 0.5)', // Azul com 50% de opacidade
+    backgroundColor: 'rgba(0, 0, 255, 0.5)',
   },
   container: {
     flex: 1,
@@ -95,10 +95,10 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     paddingHorizontal: 10,
     borderRadius: 5,
-    color: '#ffffff', // Cor do texto nos inputs
+    color: '#ffffff', 
   },
   inputText: {
-    color: '#ffffff', // Cor do texto de entrada
+    color: '#ffffff',
   },
   button: {
     backgroundColor: '#007bff',
@@ -115,7 +115,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   linkText: {
-    color: '#ffffff', // Cor do texto do link
+    color: '#ffffff', 
     textDecorationLine: 'underline',
   },
   modalView: {

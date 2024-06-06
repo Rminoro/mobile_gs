@@ -12,3 +12,5 @@ const UsuariosCrud = () => {
 };
 
 export default UsuariosCrud;
+
+// PARA ACESSAR O CRUD NO APP, UTILIZAR O LOGIN admin@admin.com senha abcd12345
