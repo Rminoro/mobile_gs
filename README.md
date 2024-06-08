@@ -39,8 +39,62 @@
 
 <li>Usuário</li>
 
-|Método|Endpoint                           |Descrição           |
-|------|-----------------------------------|--------------------|
-|POST  |http://192.168.15.133:5000/usuarios|Cadastrar um usuário|
-|PUT   |/alertas/id|Alterar uma detecção     |
-|DELETE|/alertas/id|Deletar uma detecção     |
+|Método|Endpoint                                 |Descrição           |
+|------|-----------------------------------------|--------------------|
+|POST  |http://192.168.15.133:5000/usuarios      |Cadastrar um usuário|
+|PUT   |http://192.168.15.133:5000/usuarios/email|Alterar a senha     |
+|DELETE|http://192.168.15.133:5000/usuarios/email|Deletar um usuário  |
+
+<h3 align="center">Exemplos de requisições 🌐</h3>
+
+<li>Post de usuário</li>
+
+   const adicionarUsuario = async () => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, senha }),
+      });
+      const data = await response.json();
+      Alert.alert(data.message);
+      setShowUsuarios(true); // Mostrar a lista de usuários após adicionar
+    } catch (error) {
+      console.error('Erro ao adicionar usuário:', error);
+    }
+  };
+
+<li>Put de usuário</li>
+
+const alterarSenha = async () => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios/${email}`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ novaSenha }),
+      });
+      const data = await response.json();
+      Alert.alert(data.message);
+    } catch (error) {
+      console.error('Erro ao alterar senha:', error);
+    }
+  };
+
+<li>Delete de usuário</li>
+
+const deletarUsuario = async (userEmail) => {
+    try {
+      const response = await fetch(`${API_URL}/usuarios/${userEmail}`, {
+        method: 'DELETE',
+      });
+      const data = await response.json();
+      Alert.alert(data.message);
+      setShowUsuarios(true); // Atualizar a lista de usuários após deletar
+    } catch (error) {
+      console.error('Erro ao excluir usuário:', error);
+    }
+  };
