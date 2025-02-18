@@ -1,15 +1,37 @@
 <h1  align="center">Projeto Blue Clean :ocean:</h1>
 
 <div align="center">
-<h3>Integrantes do grupo :mortar_board:</h3>
-  <li>Henrique Oliveira - RM97796 (2TDSPG)</li>
-  <li>Kaique Oliveira - RM550815 (2TDSS)</li>
-  <li>Rafael Minoro - RM99988 (2TDSS)</li>
-  <li>Thiago Gil - RM551211 (2TDSPV)</li>
-  <li>Vitor Pereira - RM551831 (2TDSS)</li>
+<h2>Descrição do Projeto</h2>
+<p>
+O Projeto Blue Clean visa combater a poluição nos mares e cidades, permitindo que os usuários reportem pontos de lixo em diferentes locais. Através de um sistema de localização, os usuários podem inserir informações sobre o local exato onde o lixo foi encontrado. Essas informações são salvas em um banco de dados para facilitar o monitoramento e a limpeza das áreas afetadas.
+
+Além disso, o projeto possui uma funcionalidade de "Waze" para mostrar o caminho até a localização de lixo para os coletores, otimizando o tempo e garantindo uma coleta eficiente.
+
+O sistema também inclui recursos de cadastro de usuários, login, e recuperação de senha via token para uma melhor experiência do usuário e segurança.
+</p>
 </div>
 
-<h1 align="center">Endpoints :iphone:</h1>
+<div>
+  <h2>Funcionalidades</h2>
+  <ul>
+    <li>Cadastro de Usuários: Permite que os usuários se cadastrem no sistema.</li>
+    <li>Login de Usuários: Autenticação de usuários para acessar o sistema.</li>
+    <li>Recuperação de Senha via Token: Envia um token para o e-mail do usuário para redefinir a senha de forma segura.
+    </li>
+    <li>Localização de Lixo: Usuários podem reportar o local exato de lixo encontrado e o sistema registra a localização.
+    </li>
+    <li>Roteamento para Coletores: Coletores podem ver o caminho até o ponto de lixo usando um sistema de navegação (semelhante ao Waze)
+    </li>
+  </ul>
+</div>
+
+<div>
+  <h2>Tecnlogias utilizadas</h2>
+    <img align="center" alt="Rafa-Python" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/python-original.svg">
+    <img align="center" alt="Rafa-React" height="30" width="40" src="https://raw.githubusercontent.com/devicons/devicon/master/icons/react/react-original.svg">
+</div>
+
+<h3 align="center">Endpoints :iphone:</h3>
 
 <li>Cadastro</li>
 
